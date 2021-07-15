@@ -35,11 +35,11 @@ You must have a GitHub account to fork an existing repo. If you do not have an a
 
 ### Step 2 - Store GitHub and Docker Hub secrets securely in your account
 
-1. A Gihub token is used to by the pipeline Stack and the Iiage builder when interacting with Github. On your Github account, go to __Settings → Developer Settings → Personal access tokens__ and generate a new token. The token should have __workflow__ scope selected
+1. A Github token is used to by the pipeline Stack and the imaage builder when interacting with Github. On your Github account, go to __Settings → Developer Settings → Personal access tokens__ and generate a new token. The token should have __workflow__ scope selected
 
 ![GitHub personal access tokens](/images/02_build_images_github_personal_token.png)
 
-2. Create a new secret by going to __AWS Console → AWS Secrets Manager__ and click on __Store a new secret__ then choose __Other type of secrets__, click on the __Plantext__ tab and copy/paste your GitHub personal token in the text box. This secret needs to be named `github_personal_token`
+2. Create a new secret by going to __AWS Console → AWS Secrets Manager__ and click on __Store a new secret__ then choose __Other type of secrets__, click on the __Plaintext__ tab and copy/paste your GitHub personal token in the text box. This secret needs to be named `github_personal_token`
 
 ![GitHub personal access tokens](/images/02_build_images_secrets_github.png) 
 
@@ -66,23 +66,20 @@ npm update
 ```bash
 cdk deploy
 ```
-### Step 5 - Monitor the deployment process
+### Step 4 - Monitor the deployment process
 
-
-Many things will occur after you type ‘cdk deploy’. The first thing that happens is that the CDK Pipelines project gets synthesized into a CloudFormation template. Then, this template gets deployed in your account.
+The first thing that happens when you run ‘cdk deploy’ is that the CDK Pipelines project gets synthesized into a CloudFormation template. Then, this template gets deployed in your account.
 
 CDK Pipelines project creates a CodePipeline pipeline called ‘DeviceImageBuilderPipeline’ in your account. This pipeline publishes a set of CloudFormation templates that define two application stacks. 
 
-The first stack is called the ‘YoctoBaseImageBuilderStack’ and it is responsible for creating a Docker image that contains all the packages that Yocto needs to be able to build Yocto images. The Docker image produced is stored in the AWS Elastic Container Registry (ECR). 
+The first stack is called the ‘YoctoBaseImageBuilderStack’ and it is responsible for creating a Docker image that contains all the packages that Poky needs to be able to build images. The Docker image produced is stored in the AWS Elastic Container Registry (ECR).
 
-The second stack is called the ‘YoctoRaspberryPiImageBuilderStack’. This stack pulls the Docker image produced by in by the first stack and start building a Linux image using Yocto. The image built in this module comes from a recipe available in the meta-aws-demos repository. The recipe targets a RaspberryPi 4. It builds a basic operating system with support for filesystem, python, networking, and AWS IoT GreenGrasss. 
-
+The second stack is called the ‘YoctoRaspberryPiImageBuilderStack’. This stack pulls the Docker image produced by in by the first stack and start building a Linux image using Poky. The image built in this module comes from a recipe available in the meta-aws-demos repository. The recipe targets a RaspberryPi 4. It builds a basic operating system with support for filesystem, python, networking, and AWS IoT GreenGrasss.
 
 
 {{% notice note %}}
-For more information about the image build, please explore the recipe here: 
+For more information about the image that this module builds, please explore the recipe here: 
 https://github.com/aws-samples/meta-aws-demos/blob/master/raspberrypi4-64/aws-iot-greengrass-v2/
-
 {{% /notice %}}
 
 ### Step 5 - Download the image from S3 and test it
